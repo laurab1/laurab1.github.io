@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laura Bussi</title>
+<meta name="description" content="Laura Bussi — Lecturer at the University of Amsterdam. Research in formal methods and AI: spatial and spatio-temporal model checking, spatial logics, neuro-symbolic AI, and verification of learning-based systems.">
+<meta name="author" content="Laura Bussi">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Laura Bussi — Formal Methods &amp; AI">
+<meta property="og:description" content="Lecturer at the University of Amsterdam. Spatial logics, model checking, trustworthy AI.">
+<meta property="og:image" content="photo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Laura Bussi",
+  "jobTitle": "Lecturer",
+  "image": "photo.jpg",
+  "affiliation": {
+    "@type": "Organization",
+    "name": "University of Amsterdam, Informatics Institute"
+  },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of Pisa" },
+  "email": "mailto:l.bussi@uva.nl",
+  "knowsAbout": ["Formal methods", "Model checking", "Spatial logic", "Neuro-symbolic AI", "Trustworthy machine learning"],
+  "award": "Paolo Gentilini Award for applications of logic to biomedical science (2026)",
+  "sameAs": [
+    "https://scholar.google.com/citations?user=lKdbv6cAAAAJ",
+    "https://github.com/laurab1"
+  ]
+}
+</script>
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root {
+  --bg: #ede7de;
+  --surface: #f6f2eb;
+  --text: #1d1f23;
+  --muted: #5a5f69;
+  --line: #d9d0c3;
+  --accent: #8c2f39;
+  --accent-soft: #e9d9d6;
+  --shadow: 0 1px 2px rgba(60,40,30,.05), 0 8px 26px rgba(60,40,30,.07);
+  --mesh-stroke: rgba(140,47,57,0.10);
+  --mesh-stroke-2: rgba(140,47,57,0.16);
+  --mesh-fill-1: rgba(140,47,57,0.07);
+  --mesh-fill-2: rgba(196,140,60,0.10);
+  --mesh-node: rgba(140,47,57,0.40);
+  /* hero / bands: dark in both themes */
+  --ink: #12141c;
+  --ink-2: #1b1e2a;
+  --on-ink: #f1eee8;
+  --on-ink-muted: #b4b2bd;
+  --rose: #e8909a;
+  --gold: #e3bd7a;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171d;
+    --surface: #1d2027;
+    --text: #e8e5df;
+    --muted: #9ea3ad;
+    --line: #2c3039;
+    --accent: #e8909a;
+    --accent-soft: #2f2126;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    --ink: #0d0f15;
+    --ink-2: #151822;
+    --mesh-stroke: rgba(255,255,255,0.05);
+    --mesh-stroke-2: rgba(232,144,154,0.12);
+    --mesh-fill-1: rgba(232,144,154,0.06);
+    --mesh-fill-2: rgba(227,189,122,0.06);
+    --mesh-node: rgba(227,189,122,0.45);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171d;
+  --surface: #1d2027;
+  --text: #e8e5df;
+  --muted: #9ea3ad;
+  --line: #2c3039;
+  --accent: #e8909a;
+  --accent-soft: #2f2126;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  --ink: #0d0f15;
+  --ink-2: #151822;
+  --mesh-stroke: rgba(255,255,255,0.05);
+  --mesh-stroke-2: rgba(232,144,154,0.12);
+  --mesh-fill-1: rgba(232,144,154,0.06);
+  --mesh-fill-2: rgba(227,189,122,0.06);
+  --mesh-node: rgba(227,189,122,0.45);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Nav ---------- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  transition: background .3s, border-color .3s, color .3s;
+  border-bottom: 1px solid transparent;
+  color: var(--on-ink);
+}
+nav.solid {
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  border-color: var(--line);
+  color: var(--text);
+}
+nav .inner {
+  max-width: 1040px; margin: 0 auto; padding: 0 16px;
+  display: flex; align-items: center; gap: 22px; height: 58px;
+  overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+}
+nav .inner::-webkit-scrollbar { display: none; }
+nav .brand { font-family: var(--serif); font-weight: 600; color: inherit; margin-right: auto; font-size: 1.08rem; opacity: 0; transition: opacity .3s; }
+nav.solid .brand { opacity: 1; }
+nav a:not(.brand) { color: inherit; opacity: .78; font-size: .9rem; font-weight: 500; }
+nav a:not(.brand):hover { opacity: 1; text-decoration: none; }
+
+/* ---------- Parallax canvases ---------- */
+.parallax { position: relative; overflow: hidden; overflow: clip; background: var(--ink); color: var(--on-ink); isolation: isolate; }
+.mesh-bg { position: relative; overflow: hidden; overflow: clip; isolation: isolate; }
+.layer {
+  position: absolute; left: -40px; right: -40px; top: -25%; height: 150%;
+  pointer-events: none; z-index: -1; will-change: transform;
+}
+.layer svg { width: 100%; height: 100%; display: block; }
+/* Used where the browser supports scroll-driven animations: the compositor moves
+   the layers in sync with scrolling, no JavaScript per frame. --e is set by JS. */
+@keyframes mesh-drift {
+  from { transform: translate3d(0, calc(var(--e, 0px) * -1), 0); }
+  to   { transform: translate3d(0, var(--e, 0px), 0); }
+}
+.parallax::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(55% 60% at 22% 45%, rgba(13,15,21,.62), transparent 75%),
+    linear-gradient(180deg, transparent 60%, var(--ink) 100%);
+}
+
+/* ---------- Hero ---------- */
+.hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; }
+.hero .wrap {
+  max-width: 1040px; margin: 0 auto; padding: 110px 16px 96px; width: 100%;
+  display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center;
+}
+@media (min-width: 820px) { .hero .wrap { grid-template-columns: 1fr 300px; gap: 64px; } }
+.eyebrow { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 14px; }
+.hero h1 {
+  font-family: var(--serif); font-weight: 600; letter-spacing: -.02em;
+  font-size: clamp(2.8rem, 8vw, 5rem); line-height: 1; margin: 0 0 18px;
+}
+.hero .role { color: var(--on-ink-muted); font-size: 1.1rem; margin: 0 0 22px; }
+.hero .role strong { color: var(--on-ink); font-weight: 500; }
+.hero p.bio { margin: 0 0 30px; max-width: 54ch; font-size: 1.05rem; color: #dcd9d2; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.links a {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid rgba(255,255,255,.22); background: rgba(18,20,28,.6);
+  padding: 8px 15px; border-radius: 999px; font-size: .9rem; font-weight: 500; color: var(--on-ink);
+  transition: background .2s, border-color .2s, transform .2s;
+}
+.links a:hover { background: rgba(40,42,56,.8); border-color: var(--rose); text-decoration: none; transform: translateY(-1px); }
+.links a.primary { background: var(--rose); border-color: var(--rose); color: #2a1216; }
+.links a.primary:hover { background: #f0a6ae; }
+.links svg { width: 16px; height: 16px; fill: currentColor; }
+
+.portrait { position: relative; width: min(260px, 70vw); justify-self: center; order: -1; }
+@media (min-width: 820px) { .portrait { width: 100%; order: 0; } }
+.portrait::before {
+  content: ""; position: absolute; inset: 0; transform: translate(14px, 14px);
+  border: 1.5px solid var(--gold); border-radius: 18px; opacity: .7;
+}
+.portrait img {
+  position: relative; display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%;
+  border-radius: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.45);
+}
+@media (max-width: 819px) {
+  .portrait { width: 168px; justify-self: start; }
+  .portrait::before { border-radius: 50%; transform: translate(8px, 8px); }
+  .portrait img { aspect-ratio: 1; border-radius: 50%; object-position: 50% 45%; }
+  .hero .wrap { padding-top: 92px; gap: 28px; }
+}
+
+.scroll-cue {
+  position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+  width: 22px; height: 36px; border: 1.5px solid rgba(255,255,255,.35); border-radius: 12px;
+}
+.scroll-cue::after {
+  content: ""; position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; margin-left: -1.5px;
+  background: var(--on-ink); border-radius: 2px; animation: cue 1.8s infinite;
+}
+@keyframes cue { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(12px); } }
+@media (max-width: 819px) { .scroll-cue { display: none; } }
+
+/* ---------- Layout ---------- */
+main { position: relative; }
+.container { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+section.block { padding: 88px 0 0; scroll-margin-top: 60px; }
+h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.7rem, 3.4vw, 2.2rem); margin: 0 0 10px; letter-spacing: -.01em; }
+.kicker { font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0 0 8px; }
+.lede { color: var(--muted); margin: 0 0 28px; }
+
+/* Highlights: glass cards inside the hero */
+.highlight-grid { grid-column: 1 / -1; display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .highlight-grid { grid-template-columns: repeat(3, 1fr); } }
+.highlight {
+  background: rgba(24,26,36,.74); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 22px 22px 20px;
+  position: relative; overflow: hidden;
+  transition: transform .25s, box-shadow .25s;
+}
+.highlight:hover { transform: translateY(-3px); background: rgba(32,34,46,.82); }
+.highlight::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--rose), var(--gold)); }
+.highlight .icon { width: 34px; height: 34px; border-radius: 9px; background: rgba(232,144,154,.16); color: var(--rose); display: grid; place-items: center; margin-bottom: 14px; }
+.highlight .icon svg { width: 18px; height: 18px; fill: currentColor; }
+.highlight .yr { font-size: .78rem; color: var(--gold); font-weight: 600; letter-spacing: .04em; }
+.highlight .t { font-family: var(--serif); font-weight: 600; font-size: 1.15rem; line-height: 1.3; margin: 2px 0 6px; color: var(--on-ink); }
+.highlight .s { color: var(--on-ink-muted); font-size: .9rem; line-height: 1.5; }
+
+/* Research band */
+.band { margin-top: 0; }
+.band .container { padding-top: 96px; padding-bottom: 96px; }
+.band .kicker { color: var(--gold); }
+.band h2 { color: var(--on-ink); max-width: 22ch; }
+.band .lede { color: var(--on-ink-muted); max-width: 60ch; }
+.band::after { background: radial-gradient(80% 90% at 30% 50%, rgba(13,15,21,.6), rgba(13,15,21,.15) 85%); }
+.interests { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 36px; }
+@media (min-width: 640px) { .interests { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 960px) { .interests { grid-template-columns: repeat(4, 1fr); } }
+.interest {
+  border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 20px;
+  background: rgba(24,26,36,.62);
+}
+.interest .n { font-family: var(--serif); font-style: italic; color: var(--rose); font-size: 1.1rem; }
+.interest .t { font-weight: 600; margin-top: 6px; line-height: 1.35; }
+
+/* Publications */
+.pubs { list-style: none; margin: 0; padding: 0; }
+.pubs li {
+  padding: 18px 0; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: 60px 1fr; gap: 14px;
+}
+.pubs li:first-child { border-top: 0; }
+.pubs .yr { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; padding-top: 3px; }
+.pubs .title { font-family: var(--serif); font-weight: 600; font-size: 1.12rem; line-height: 1.35; color: var(--text); }
+.pubs a.title:hover { color: var(--accent); }
+.pubs .authors { font-size: .9rem; color: var(--muted); margin-top: 2px; }
+.pubs .authors b { color: var(--text); font-weight: 600; }
+.pubs .venue { font-size: .9rem; font-style: italic; }
+.tag { display: inline-block; font-size: .7rem; font-weight: 600; padding: 1px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-left: 6px; font-style: normal; vertical-align: 1px; letter-spacing: .02em; }
+.pub-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px 24px; box-shadow: var(--shadow); }
+details { margin-top: 22px; }
+summary { cursor: pointer; font-weight: 500; color: var(--accent); list-style: none; display: inline-flex; align-items: center; gap: 8px; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid currentColor; font-size: .9rem; line-height: 1; transition: transform .2s; }
+details[open] summary::before { transform: rotate(45deg); }
+details[open] summary { margin-bottom: 8px; }
+
+/* Timelines */
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li { display: grid; grid-template-columns: 1fr; gap: 2px 18px; padding: 13px 0; border-top: 1px solid var(--line); }
+.timeline li:first-child { border-top: 0; }
+@media (min-width: 640px) { .timeline li { grid-template-columns: 110px 1fr; } }
+.timeline .when { color: var(--accent); font-size: .85rem; font-weight: 600; font-variant-numeric: tabular-nums; padding-top: 2px; }
+.timeline .what { font-weight: 600; }
+.timeline .where { color: var(--muted); font-size: .92rem; }
+
+.two-col { display: grid; gap: 40px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .two-col { grid-template-columns: 1fr 1fr; } }
+h3.sub { font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
+
+/* Software */
+.software { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .software { grid-template-columns: repeat(3, 1fr); } }
+.software a {
+  display: block; color: var(--text); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 22px; box-shadow: var(--shadow); transition: transform .25s, border-color .25s;
+}
+.software a:hover { transform: translateY(-3px); border-color: var(--accent); text-decoration: none; }
+.software .name { font-family: var(--serif); font-weight: 600; font-size: 1.15rem; display: flex; justify-content: space-between; align-items: center; }
+.software .name span { color: var(--accent); font-family: var(--sans); font-size: 1rem; transition: transform .2s; }
+.software a:hover .name span { transform: translate(3px, -3px); }
+.software .role { font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
+.software p { margin: 8px 0 0; font-size: .92rem; color: var(--muted); }
+
+.cv-cta {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
+  background: var(--accent); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 500; font-size: .92rem;
+}
+.cv-cta:hover { text-decoration: none; filter: brightness(1.08); }
+
+/* Footer */
+footer.parallax { margin-top: 110px; }
+footer .container { padding-top: 64px; padding-bottom: 56px; display: flex; flex-wrap: wrap; gap: 18px 40px; justify-content: space-between; align-items: end; }
+footer .name { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; }
+footer .addr { color: var(--on-ink-muted); font-size: .92rem; }
+footer a { color: var(--rose); }
+
+/* Reveal on scroll (only with JS) */
+.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .scroll-cue::after { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="inner">
+    <a class="brand" href="#top">Laura Bussi</a>
+    <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#service">Service</a>
+    <a href="#software">Software</a>
+    <a href="#teaching">Teaching</a>
+    <a href="#cv">CV</a>
+  </div>
+</nav>
+
+<header class="hero parallax" id="top" data-mesh="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Formal methods · Artificial intelligence</p>
+      <h1>Laura Bussi</h1>
+      <p class="role"><strong>Lecturer</strong> · Informatics Institute, University of Amsterdam</p>
+      <p class="bio">
+        I am a researcher in formal methods and artificial intelligence. I work on spatial and
+        spatio-temporal reasoning, model checking, and the verification of learning-based systems,
+        developing logical and algorithmic foundations for trustworthy AI, with an emphasis on
+        tool-supported methods and safety-critical applications such as medical imaging.
+      </p>
+      <div class="links">
+        <a class="primary" href="mailto:l.bussi@uva.nl">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg>
+          l.bussi@uva.nl
+        </a>
+        <a href="https://scholar.google.com/citations?user=lKdbv6cAAAAJ" rel="me">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3Zm-6.8 10.2V17c0 1.7 3 3.5 6.8 3.5s6.8-1.8 6.8-3.5v-3.8L12 17l-6.8-3.8Z"/></svg>
+          Google Scholar
+        </a>
+        <a href="https://github.com/laurab1" rel="me">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a href="cv.pdf">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Zm-1 7V3.5L18.5 9H13ZM8 13h8v2H8v-2Zm0 4h8v2H8v-2Z"/></svg>
+          CV (PDF)
+        </a>
+      </div>
+    </div>
+    <figure class="portrait" style="margin:0">
+      <img src="photo.jpg" alt="Laura Bussi giving a talk" width="394" height="500">
+    </figure>
+    <div class="highlight-grid" aria-label="Highlights">
+        <div class="highlight reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-4 12.74V22l4-2 4 2v-7.26A7 7 0 0 0 12 2Zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/></svg></div>
+          <div class="yr">2026 · Award</div>
+          <div class="t">Paolo Gentilini Award</div>
+          <div class="s">For applications of logic to biomedical science — Italian Association for Logic and its Applications (AILA)</div>
+        </div>
+        <div class="highlight reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></svg></div>
+          <div class="yr">2026 · Chair</div>
+          <div class="t">Artifact Evaluation Chair, SPIN 2026</div>
+          <div class="s">International Symposium on Model Checking of Software</div>
+        </div>
+        <div class="highlight reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></svg></div>
+          <div class="yr">2025 · Chair</div>
+          <div class="t">Artifact Evaluation Chair, ETAPS 2025</div>
+          <div class="s">European Joint Conferences on Theory and Practice of Software</div>
+        </div>
+      </div>
+  </div>
+  <span class="scroll-cue" aria-hidden="true"></span>
+</header>
+
+<main class="mesh-bg" data-mesh="page">
+
+
+  <section class="band parallax block" id="research" data-mesh="band">
+    <div class="container reveal">
+      <p class="kicker">Research</p>
+      <h2>Logical foundations for trustworthy AI</h2>
+      <p class="lede">
+        From spatial logics on images and polyhedra to verified neural networks: I build theory
+        and tools that make it possible to reason rigorously about large, structured, and learned systems.
+      </p>
+      <div class="interests">
+        <div class="interest"><div class="n">i.</div><div class="t">Formal methods for reasoning about large structured systems</div></div>
+        <div class="interest"><div class="n">ii.</div><div class="t">Spatial and topological reasoning</div></div>
+        <div class="interest"><div class="n">iii.</div><div class="t">Neuro-symbolic artificial intelligence</div></div>
+        <div class="interest"><div class="n">iv.</div><div class="t">Trustworthy and explainable machine learning</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="publications">
+    <div class="reveal">
+      <p class="kicker">Publications</p>
+      <h2>Selected publications</h2>
+      <p class="lede">Full and up-to-date list on <a href="https://scholar.google.com/citations?user=lKdbv6cAAAAJ">Google Scholar</a>.</p>
+    </div>
+    <div class="pub-card reveal">
+      <ol class="pubs">
+        <li>
+          <span class="yr">2026</span>
+          <div>
+            <div class="title">Spatio-temporal Model Checking with VoxLogicA</div>
+            <div class="authors"><b>L. Bussi</b>, V. Ciancia, F. Gadducci, M. Massink</div>
+            <div class="venue">Journal of Logic, Language and Information 35, 83–108 <span class="tag">Journal</span></div>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2026</span>
+          <div>
+            <div class="title">Weak Simplicial Bisimilarity and Minimisation for Polyhedral Model Checking</div>
+            <div class="authors">N. Bezhanishvili, <b>L. Bussi</b>, V. Ciancia, D. Gabelaia, M. Jibladze, D. Latella, M. Massink</div>
+            <div class="venue">Logical Methods in Computer Science 22(1) <span class="tag">Journal</span></div>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2025</span>
+          <div>
+            <a class="title" href="https://arxiv.org/abs/2506.09701">ABS: Enforcing Constraint Satisfaction on Generated Sequences via Automata-Guided Beam Search ↗</a>
+            <div class="authors"><b>L. Bussi</b>, V. Collura, M. Cordy, E. Giunchiglia, K. Tit</div>
+            <div class="venue">arXiv:2506.09701 <span class="tag">Preprint</span></div>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2024</span>
+          <div>
+            <div class="title">Logics of Polyhedral Reachability</div>
+            <div class="authors">N. Bezhanishvili, <b>L. Bussi</b>, V. Ciancia, D. F. Duque, D. Gabelaia</div>
+            <div class="venue">Advances in Modal Logic (AiML 2024) <span class="tag">Conference</span></div>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2024</span>
+          <div>
+            <div class="title">Towards Hybrid-AI in Imaging using VoxLogicA</div>
+            <div class="authors">G. Belmonte, <b>L. Bussi</b>, V. Ciancia, D. Latella, M. Massink</div>
+            <div class="venue">ISoLA 2024, LNCS 15222, 205–221 <span class="tag">Conference</span></div>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2023</span>
+          <div>
+            <div class="title">A Toolchain for Strategy Synthesis with Spatial Properties</div>
+            <div class="authors">D. Basile, <b>L. Bussi</b>, V. Ciancia, M. ter Beek</div>
+            <div class="venue">International Journal on Software Tools for Technology Transfer 25, 641–658 <span class="tag">Journal</span></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <details class="reveal">
+      <summary>Other publications</summary>
+      <div class="pub-card">
+        <ol class="pubs">
+          <li>
+            <span class="yr">2023</span>
+            <div>
+              <div class="title">A Spatial Logic with Time and Quantifiers</div>
+              <div class="authors"><b>L. Bussi</b>, V. Ciancia, F. Gadducci</div>
+              <div class="venue">DaLí: Dynamic Logic — New Trends and Applications, Springer, 1–19</div>
+            </div>
+          </li>
+          <li>
+            <span class="yr">2022</span>
+            <div>
+              <div class="title">On Binding in the Spatial Logic for Closure Spaces</div>
+              <div class="authors"><b>L. Bussi</b>, V. Ciancia, F. Gadducci, D. Latella, M. Massink</div>
+              <div class="venue">ISoLA 2022, Springer, 479–497</div>
+            </div>
+          </li>
+          <li>
+            <span class="yr">2022</span>
+            <div>
+              <div class="title">Soft Concurrent Constraint Programming with Local Variables</div>
+              <div class="authors"><b>L. Bussi</b>, F. Gadducci, F. Santini</div>
+              <div class="venue">COORDINATION 2022, Springer, 159–177</div>
+            </div>
+          </li>
+          <li>
+            <span class="yr">2021</span>
+            <div>
+              <div class="title">Querying Medical Imaging Datasets using Spatial Logics (position paper)</div>
+              <div class="authors">G. Belmonte, G. Broccia, <b>L. Bussi</b>, V. Ciancia, D. Latella, M. Massink</div>
+              <div class="venue">MEDI 2021, Springer, 285–301</div>
+            </div>
+          </li>
+          <li>
+            <span class="yr">2021</span>
+            <div>
+              <div class="title">Towards Model Checking Video Streams Using VoxLogicA on GPUs</div>
+              <div class="authors"><b>L. Bussi</b>, V. Ciancia, F. Gadducci, D. Latella, M. Massink</div>
+              <div class="venue">From Data to Models and Back (DataMod 2021), Springer, 78–90</div>
+            </div>
+          </li>
+          <li>
+            <span class="yr">2021</span>
+            <div>
+              <div class="title">Towards a Spatial Model Checker on GPU</div>
+              <div class="authors"><b>L. Bussi</b>, V. Ciancia, F. Gadducci</div>
+              <div class="venue">FORTE 2021, Springer, 188–196</div>
+            </div>
+          </li>
+          <li>
+            <span class="yr">2019</span>
+            <div>
+              <div class="title">Polyadic Soft Constraints</div>
+              <div class="authors"><b>L. Bussi</b>, F. Gadducci, F. Santini</div>
+              <div class="venue">The Art of Modelling Computational Systems, Springer, 241–257</div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <section class="block container" id="service">
+    <div class="reveal">
+      <p class="kicker">Community</p>
+      <h2>Service</h2>
+    </div>
+    <div class="two-col reveal" style="margin-top:24px">
+      <div>
+        <h3 class="sub">Chairing &amp; programme committees</h3>
+        <ul class="timeline">
+          <li><span class="when">2026</span><div><div class="what">AEC Chair</div><div class="where">SPIN — Symposium on Model Checking of Software</div></div></li>
+          <li><span class="when">2025</span><div><div class="what">AEC Chair</div><div class="where">ETAPS — European Joint Conferences on Theory and Practice of Software</div></div></li>
+          <li><span class="when">2024</span><div><div class="what">PC Member, Artifact Evaluation</div><div class="where">FM 2024 · FoSSaCS 2024 · FormaliSE 2024</div></div></li>
+          <li><span class="when">2023</span><div><div class="what">PC Member, Artifact Evaluation</div><div class="where">FormaliSE 2023</div></div></li>
+          <li><span class="when">2022</span><div><div class="what">Local organiser</div><div class="where">ItaCa — Italian Category Theorists workshop, Pisa</div></div></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub">Invited talks</h3>
+        <ul class="timeline" style="margin-bottom:28px">
+          <li><span class="when">Jun 2025</span><div><div class="what">Polyhedral Logic with Reachability: from Semantics to Minimization</div><div class="where">Topological Methods in Logic VII, Tbilisi</div></div></li>
+        </ul>
+        <h3 class="sub">Reviewing</h3>
+        <p style="margin:6px 0 0">Reviewer for journals and conferences including <em>Fuzzy Sets and Systems</em>, the <em>Journal of Systems and Software</em>, NeurIPS and NeSy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="software">
+    <div class="reveal">
+      <p class="kicker">Tools</p>
+      <h2>Software</h2>
+      <p class="lede">Spatial model checking in practice, with a focus on medical imaging.</p>
+    </div>
+    <div class="software reveal">
+      <a href="https://github.com/vincenzoml/VoxLogicA/tree/gpu-new">
+        <div class="name">VoxLogicA-GPU <span>↗</span></div>
+        <div class="role">Main developer</div>
+        <p>GPU-accelerated spatial model checker for voxel-based medical image analysis.</p>
+      </a>
+      <a href="https://github.com/VoxLogicA-Project/VoxLogicA-2">
+        <div class="name">VoxLogicA 2 <span>↗</span></div>
+        <div class="role">Contributor</div>
+        <p>The next generation of the VoxLogicA spatial model checker.</p>
+      </a>
+      <a href="https://github.com/vincenzoml/VoxLogicA/tree/Posets">
+        <div class="name">VoxLogicA · Kripke <span>↗</span></div>
+        <div class="role">Contributor</div>
+        <p>Extension of VoxLogicA to Kripke structures and posets.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="block container" id="teaching">
+    <div class="reveal">
+      <p class="kicker">Teaching</p>
+      <h2>Teaching</h2>
+    </div>
+    <ul class="timeline reveal" style="margin-top:20px">
+      <li><span class="when">2025–now</span><div><div class="what">Lecturer, MSc Software Engineering — University of Amsterdam</div><div class="where">Software Specification, Verification and Testing · Model-based Design of Cyber-Physical Systems · Software Evolution · DevOps and Cloud-Based Software</div></div></li>
+      <li><span class="when">2020–2023</span><div><div class="what">Teaching Assistant — University of Pisa</div><div class="where">Advanced Programming, MSc Computer Science and Networking</div></div></li>
+      <li><span class="when">2018–2019</span><div><div class="what">Teaching Assistant &amp; Tutor — University of Pisa</div><div class="where">Logic for Programming, BSc Computer Science · Micro:bit summer course for high-school students</div></div></li>
+    </ul>
+  </section>
+
+  <section class="block container" id="cv">
+    <div class="reveal">
+      <p class="kicker">Curriculum</p>
+      <h2>Short CV</h2>
+    </div>
+    <div class="two-col reveal" style="margin-top:24px">
+      <div>
+        <h3 class="sub">Positions</h3>
+        <ul class="timeline">
+          <li><span class="when">2025–now</span><div><div class="what">Lecturer</div><div class="where">Informatics Institute, University of Amsterdam</div></div></li>
+          <li><span class="when">2025</span><div><div class="what">Postdoctoral fellow</div><div class="where">SnT, University of Luxembourg — verification of neural networks</div></div></li>
+          <li><span class="when">2024–2025</span><div><div class="what">Postdoctoral fellow</div><div class="where">FMT Lab, ISTI-CNR, Pisa — AI and spatial logics for medical imaging</div></div></li>
+        </ul>
+        <h3 class="sub" style="margin-top:28px">Research visits</h3>
+        <ul class="timeline">
+          <li><span class="when">2025</span><div><div class="what">Imperial College London</div><div class="where">with Eleonora Giunchiglia</div></div></li>
+          <li><span class="when">2023</span><div><div class="what">Tbilisi State University</div><div class="where">with David Gabelaia</div></div></li>
+          <li><span class="when">2023</span><div><div class="what">ILLC, University of Amsterdam</div><div class="where">with Nick Bezhanishvili</div></div></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub">Education</h3>
+        <ul class="timeline">
+          <li><span class="when">2020–2024</span><div><div class="what">PhD in Computer Science, University of Pisa</div><div class="where">Thesis: <em>Model checking properties with identity binding in space-time</em>. Advisors: Fabio Gadducci, Vincenzo Ciancia</div></div></li>
+          <li><span class="when">2018–2020</span><div><div class="what">MSc in Computer Science, University of Pisa</div><div class="where">Thesis: <em>A GPU implementation of the spatial model checker VoxLogicA</em></div></div></li>
+          <li><span class="when">2015–2018</span><div><div class="what">BSc in Computer Science, University of Pisa</div><div class="where">Thesis: <em>Polyadic soft constraints</em></div></div></li>
+        </ul>
+        <a class="cv-cta" href="cv.pdf">Download full CV (PDF) <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="parallax" data-mesh="footer">
+  <div class="container">
+    <div>
+      <div class="name">Laura Bussi</div>
+      <div class="addr">Informatics Institute · University of Amsterdam<br>Science Park, Amsterdam</div>
+    </div>
+    <div class="addr">
+      <a href="mailto:l.bussi@uva.nl">l.bussi@uva.nl</a> ·
+      <a href="https://scholar.google.com/citations?user=lKdbv6cAAAAJ">Scholar</a> ·
+      <a href="https://github.com/laurab1">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/*
+ * Parallax background: a jittered triangulation (a simplicial complex) drawn on
+ * several layers that move at different speeds. Clusters of filled triangles
+ * evoke the regions a spatial model checker reports as satisfying a formula.
+ */
+(function () {
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  function rng(seed) {
+    return function () {
+      seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // opts: cell, seed, stroke, strokeWidth, fills [{color, max}], blobs, nodes {color, r, p}
+  function drawMesh(svg, w, h, o) {
+    const r = rng(o.seed);
+    const cols = Math.ceil(w / o.cell) + 2, rows = Math.ceil(h / o.cell) + 2;
+    const P = [];
+    for (let i = 0; i < cols; i++) {
+      P[i] = [];
+      for (let j = 0; j < rows; j++) {
+        P[i][j] = [(i - 0.5) * o.cell + (r() - 0.5) * o.cell * 0.75,
+                   (j - 0.5) * o.cell + (r() - 0.5) * o.cell * 0.75];
+      }
+    }
+    const blobs = [];
+    const nBlobs = o.blobs === 'auto' ? Math.max(3, Math.round(h / 650)) : (o.blobs || 0);
+    for (let b = 0; b < nBlobs; b++) {
+      blobs.push({ x: r() * w, y: r() * h, rad: o.cell * (1.6 + r() * 2.2) });
+    }
+    let edges = '';
+    const fills = (o.fills || []).map(() => '');
+    const f = n => n.toFixed(1);
+    for (let i = 0; i < cols - 1; i++) {
+      for (let j = 0; j < rows - 1; j++) {
+        const a = P[i][j], b = P[i + 1][j], c = P[i + 1][j + 1], d = P[i][j + 1];
+        const tris = r() < 0.5 ? [[a, b, c], [a, c, d]] : [[a, b, d], [b, c, d]];
+        for (const t of tris) {
+          const p = `M${f(t[0][0])} ${f(t[0][1])}L${f(t[1][0])} ${f(t[1][1])}L${f(t[2][0])} ${f(t[2][1])}Z`;
+          edges += p;
+          if (!fills.length) continue;
+          const cx = (t[0][0] + t[1][0] + t[2][0]) / 3, cy = (t[0][1] + t[1][1] + t[2][1]) / 3;
+          for (const bl of blobs) {
+            const dist = Math.hypot(cx - bl.x, cy - bl.y) / bl.rad;
+            if (dist < 1 && r() > dist * 0.55) {
+              fills[Math.floor(r() * fills.length)] += p;
+              break;
+            }
+          }
+        }
+      }
+    }
+    let html = '';
+    o.fills && o.fills.forEach((fl, k) => {
+      if (fills[k]) html += `<path d="${fills[k]}" style="fill:${fl}" />`;
+    });
+    if (o.stroke) html += `<path d="${edges}" style="fill:none;stroke:${o.stroke}" stroke-width="${o.strokeWidth || 1}" stroke-linejoin="round"/>`;
+    if (o.nodes) {
+      let dots = '';
+      for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+        if (r() < o.nodes.p) dots += `<circle cx="${f(P[i][j][0])}" cy="${f(P[i][j][1])}" r="${o.nodes.r}"/>`;
+      }
+      html += `<g style="fill:${o.nodes.color}">${dots}</g>`;
+    }
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+    svg.innerHTML = html;
+  }
+
+  const PRESETS = {
+    hero: [
+      { speed: 0.06, cell: 46, seed: 11, stroke: 'rgba(255,255,255,0.06)' },
+      { speed: 0.35, cell: 120, seed: 7, stroke: 'rgba(255,255,255,0.14)', blobs: 4,
+        fills: ['rgba(232,144,154,0.13)', 'rgba(232,144,154,0.22)', 'rgba(227,189,122,0.13)'],
+        nodes: { color: 'rgba(255,255,255,0.5)', r: 1.8, p: 0.5 } },
+      { speed: 0.75, cell: 240, seed: 3, stroke: 'rgba(232,144,154,0.32)', strokeWidth: 1.3, blobs: 2,
+        fills: ['rgba(232,144,154,0.10)'],
+        nodes: { color: 'rgba(227,189,122,0.95)', r: 3, p: 0.4 } }
+    ],
+    band: [
+      { speed: 0.08, cell: 54, seed: 21, stroke: 'rgba(255,255,255,0.06)' },
+      { speed: 0.4, cell: 140, seed: 29, stroke: 'rgba(255,255,255,0.13)', blobs: 5,
+        fills: ['rgba(227,189,122,0.15)', 'rgba(232,144,154,0.18)'],
+        nodes: { color: 'rgba(227,189,122,0.85)', r: 2.2, p: 0.45 } }
+    ],
+    page: [
+      { speed: 0.05, cell: 70, seed: 51, stroke: 'var(--mesh-stroke)' },
+      { speed: 0.2, cell: 170, seed: 57, stroke: 'var(--mesh-stroke-2)', strokeWidth: 1.2, blobs: 'auto',
+        fills: ['var(--mesh-fill-1)', 'var(--mesh-fill-2)'],
+        nodes: { color: 'var(--mesh-node)', r: 2.2, p: 0.35 } }
+    ],
+    footer: [
+      { speed: 0.2, cell: 90, seed: 41, stroke: 'rgba(255,255,255,0.09)', blobs: 2,
+        fills: ['rgba(232,144,154,0.13)'],
+        nodes: { color: 'rgba(255,255,255,0.4)', r: 1.5, p: 0.4 } }
+    ]
+  };
+
+  // Scroll-driven animations run on the compositor (smooth, in sync with the
+  // page). Without them, JS eases the layers towards their target each frame.
+  const useTimeline = !reduceMotion && !!(window.CSS && CSS.supports('animation-timeline', 'view()'));
+  const hoverMouse = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  const scenes = [];
+  document.querySelectorAll('[data-mesh]').forEach(host => {
+    const timeline = '--mesh-' + host.dataset.mesh;
+    if (useTimeline) host.style.viewTimeline = timeline + ' block';
+    const layers = PRESETS[host.dataset.mesh].map(opts => {
+      const div = document.createElement('div');
+      div.className = 'layer';
+      div.setAttribute('aria-hidden', 'true');
+      const svg = document.createElementNS(NS, 'svg');
+      div.appendChild(svg);
+      host.prepend(div);
+      if (useTimeline) {
+        div.style.animation = 'mesh-drift linear both';
+        div.style.animationTimeline = timeline;
+        div.style.animationRange = 'cover 0% cover 100%';
+      }
+      return { div, svg, opts, e: 0, y: null, mx: 0, my: 0 };
+    });
+    scenes.push({ host, layers, hero: host.classList.contains('hero') });
+  });
+
+  // A layer travels at most ±e while its host crosses the viewport, so it is
+  // made taller than the host by e (plus room for the mouse offset) on each side.
+  function buildScene(s) {
+    const hostH = s.host.offsetHeight, vh = innerHeight;
+    s.layers.forEach(l => {
+      l.e = reduceMotion ? 0 : (vh + hostH) / 2 * l.opts.speed;
+      const ext = Math.ceil(l.e) + 48;
+      l.div.style.top = -ext + 'px';
+      l.div.style.height = hostH + 2 * ext + 'px';
+      l.div.style.setProperty('--e', l.e.toFixed(1) + 'px');
+      const w = l.div.clientWidth, h = l.div.clientHeight;
+      if (w && h) drawMesh(l.svg, w, h, l.opts);
+    });
+  }
+  function build() { scenes.forEach(buildScene); }
+
+  const nav = document.getElementById('nav');
+  let mx = 0, my = 0, running = false, last = 0;
+
+  function frame(now) {
+    const dt = last ? Math.min(now - last, 64) : 16.7;
+    last = now;
+    const ease = 1 - Math.pow(1 - 0.11, dt / 16.7);   // scroll smoothing
+    const easeMouse = 1 - Math.pow(1 - 0.06, dt / 16.7);
+    const vh = innerHeight;
+    let moving = false;
+
+    scenes.forEach(s => {
+      const rect = s.host.getBoundingClientRect();
+      const visible = rect.bottom > -100 && rect.top < vh + 100;
+      s.layers.forEach((l, k) => {
+        if (!useTimeline && !reduceMotion) {
+          const t = Math.max(-l.e, Math.min(l.e, -(rect.top + rect.height / 2 - vh / 2) * l.opts.speed));
+          if (l.y === null || !visible) l.y = t;
+          else l.y += (t - l.y) * ease;
+          if (Math.abs(t - l.y) < 0.15) l.y = t; else moving = true;
+          if (visible) l.div.style.transform = `translate3d(0, ${l.y.toFixed(2)}px, 0)`;
+        }
+        if (s.hero && hoverMouse && !reduceMotion && visible) {
+          const tx = mx * (k + 1) * 12, ty = my * (k + 1) * 8;
+          l.mx += (tx - l.mx) * easeMouse;
+          l.my += (ty - l.my) * easeMouse;
+          if (Math.abs(tx - l.mx) > 0.1 || Math.abs(ty - l.my) > 0.1) moving = true;
+          l.svg.style.transform = `translate3d(${l.mx.toFixed(2)}px, ${l.my.toFixed(2)}px, 0)`;
+        }
+      });
+    });
+
+    nav.classList.toggle('solid', scrollY > innerHeight * 0.6);
+    if (moving) requestAnimationFrame(frame);
+    else { running = false; last = 0; }
+  }
+  function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+  addEventListener('scroll', kick, { passive: true });
+  if (hoverMouse) {
+    addEventListener('pointermove', e => {
+      mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; kick();
+    }, { passive: true });
+  }
+
+  // Redraw a scene when its size really changes (width, or "Other publications" opened)
+  if ('ResizeObserver' in window) {
+    scenes.forEach(s => {
+      let w = 0, h = 0, timer;
+      new ResizeObserver(([entry]) => {
+        const r = entry.contentRect;
+        if (Math.abs(r.width - w) < 1 && Math.abs(r.height - h) < 80) return;
+        w = r.width; h = r.height;
+        clearTimeout(timer);
+        timer = setTimeout(() => { buildScene(s); kick(); }, 150);
+      }).observe(s.host);
+    });
+  }
+  let lastVh = innerHeight, vhTimer;
+  addEventListener('resize', () => {
+    clearTimeout(vhTimer);
+    vhTimer = setTimeout(() => {
+      if (Math.abs(innerHeight - lastVh) > 120) { lastVh = innerHeight; build(); }
+      kick();
+    }, 200);
+  });
+
+  build();
+  kick();
+
+  // Reveal on scroll
+  const items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(el => io.observe(el));
+  } else {
+    items.forEach(el => el.classList.add('in'));
+  }
+})();
+</script>
+</body>
+</html>
